@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 import { Model } from "mongoose";
 
 export type IUser = {
@@ -5,6 +7,11 @@ export type IUser = {
     firstName: string;
     lastName: string;
   };
+  email: string;
+  password: string;
+};
+
+export type IUserLogin = {
   email: string;
   password: string;
 };
