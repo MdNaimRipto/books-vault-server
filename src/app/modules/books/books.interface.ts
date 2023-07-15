@@ -7,6 +7,7 @@ export type IBooks = {
   publicationDate: string;
   description: string;
   price: number;
+  totalSale: number;
   inStock: boolean;
   rating: number;
   allRating: [number];

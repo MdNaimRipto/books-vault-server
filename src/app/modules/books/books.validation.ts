@@ -18,6 +18,7 @@ const createBookZodSchema = z.object({
       required_error: "Description is required",
     }),
     price: z.number().positive("Price must be a positive number"),
+    totalSale: z.number().int().min(0, "Total Sale is Required"),
     inStock: z.boolean({
       required_error: "In Stock must be a boolean",
     }),
@@ -62,6 +63,7 @@ const updateBookZodSchema = z.object({
       publicationDate: z.string().optional(),
       description: z.string().optional(),
       price: z.number().positive("Price must be a positive number").optional(),
+      totalSale: z.number().int().min(0, "Total Sale is Required").optional(),
       inStock: z.boolean().optional(),
       rating: z
         .number()

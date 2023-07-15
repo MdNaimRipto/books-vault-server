@@ -56,11 +56,12 @@ const updateBook = async (
     );
   }
 
-  const { rating, allRating, reviews, ...updatedPayload } = payload;
+  const { rating, allRating, reviews, totalSale, ...updatedPayload } = payload;
 
   if (
     rating !== undefined ||
     allRating !== undefined ||
+    totalSale !== undefined ||
     reviews !== undefined
   ) {
     throw new ApiError(
@@ -135,6 +136,7 @@ const addReview = async (
   return result;
 };
 
+// Update Rating Function:
 const updateRating = async (
   id: string,
   useID: string,
