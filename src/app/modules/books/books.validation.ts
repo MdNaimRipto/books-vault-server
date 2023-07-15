@@ -115,9 +115,21 @@ const reviewBookZodSchema = z.object({
   }),
 });
 
+const updateRatingBookZodSchema = z.object({
+  body: z.object({
+    userID: z.string({
+      required_error: "Seller ID is Required",
+    }),
+    rating: z.number({
+      required_error: "Rating is Required",
+    }),
+  }),
+});
+
 export const BooksValidation = {
   createBookZodSchema,
   updateBookZodSchema,
   deleteBookZodSchema,
   reviewBookZodSchema,
+  updateRatingBookZodSchema,
 };

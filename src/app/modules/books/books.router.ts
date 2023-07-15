@@ -37,7 +37,7 @@ router.patch(
 
 router.patch(
   "/updateRating/:id",
-  // zodValidationRequest(BooksValidation.reviewBookZodSchema),
+  zodValidationRequest(BooksValidation.updateRatingBookZodSchema),
   BooksController.updateRating
 );
 
