@@ -4,11 +4,13 @@ import { IBooks, IReview } from "./books.interface";
 import { Books } from "./books.schema";
 import { Users } from "../users/users.schema";
 
+// Create Book Function:
 const createNewBook = async (bookData: IBooks): Promise<IBooks> => {
   const newBook = await Books.create(bookData);
   return newBook;
 };
 
+// Get All Books Function:
 const getAllBooks = async (): Promise<IBooks[]> => {
   const result = await Books.find();
   if (!result.length) {
