@@ -11,4 +11,6 @@ router.post(
   BooksController.createNewBook
 );
 
+router.get("/getAllBooks", BooksController.getAllBooks);
+
 export const BooksRouter = router;
