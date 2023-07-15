@@ -35,4 +35,10 @@ router.patch(
   BooksController.addReview
 );
 
+router.patch(
+  "/updateRating/:id",
+  // zodValidationRequest(BooksValidation.reviewBookZodSchema),
+  BooksController.updateRating
+);
+
 export const BooksRouter = router;

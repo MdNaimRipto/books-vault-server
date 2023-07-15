@@ -98,7 +98,7 @@ const deleteBook = async (
   return result;
 };
 
-//
+// Add Review Function:
 const addReview = async (
   id: string,
   useID: string,
@@ -137,15 +137,23 @@ const addReview = async (
 
 const updateRating = async (
   id: string,
-  newRating: number,
-  payload: Partial<IBooks>
+  useID: string,
+  newRating: number
 ): Promise<IBooks | null> => {
   const isExists = await Books.findById({ _id: id });
   if (!isExists) {
     throw new ApiError(httpStatus.NOT_FOUND, "Book Not Found!");
   }
 
-  const { allRating } = payload;
+  const checkUser = await Users.findById({ _id: useID });
+  if (checkUser?.id === isExists.sellerID) {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "Permission Denied! Seller Does Not Have Permission to Add Ratings"
+    );
+  }
+
+  const { allRating } = isExists;
 
   if (allRating) {
     allRating.push(newRating);
@@ -153,10 +161,11 @@ const updateRating = async (
       (accumulator, currentValue) => accumulator + currentValue,
       0
     );
-    const avgRating = totalRating / allRating.length;
-    payload.rating = avgRating;
+    const ratingCount = allRating.length - 1;
+    const avgRating = totalRating / ratingCount;
+    isExists.rating = avgRating >= 5 ? 5 : parseFloat(avgRating.toFixed(1));
   }
-  const result = await Books.findOneAndUpdate({ _id: id }, payload, {
+  const result = await Books.findOneAndUpdate({ _id: id }, isExists, {
     new: true,
   });
   return result;
@@ -168,7 +177,7 @@ export const BooksService = {
   getBooksByID,
   getBooksBySeller,
   updateBook,
+  deleteBook,
   addReview,
   updateRating,
-  deleteBook,
 };
