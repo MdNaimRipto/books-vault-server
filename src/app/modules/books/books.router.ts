@@ -23,4 +23,10 @@ router.patch(
   BooksController.updateBook
 );
 
+router.delete(
+  "/deleteBook/:id",
+  zodValidationRequest(BooksValidation.deleteBookZodSchema),
+  BooksController.deleteBook
+);
+
 export const BooksRouter = router;

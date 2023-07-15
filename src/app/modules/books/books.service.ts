@@ -76,6 +76,29 @@ const updateBook = async (
   return result;
 };
 
+// Delete Book Function:
+const deleteBook = async (
+  bookID: string,
+  sellerID: string
+): Promise<IBooks | null> => {
+  const isExists = await Books.findById({ _id: bookID });
+  if (!isExists) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Book Not Found!");
+  }
+
+  const checkSeller = await Users.findById({ _id: sellerID });
+  if (checkSeller?.id !== isExists.sellerID) {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "Permission Denied! This User Doesn't Have Permission to Delete This Book."
+    );
+  }
+
+  const result = await Books.findOneAndDelete({ _id: bookID });
+  return result;
+};
+
+// ! Should Be At User
 const addReview = async (
   id: string,
   useID: string,
@@ -139,18 +162,7 @@ const updateRating = async (
   });
   return result;
 };
-
-const deleteBook = async (payload: string): Promise<IBooks | null> => {
-  const isExists = await Books.findById({ _id: payload });
-  if (!isExists) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Book Not Found!");
-  }
-
-  const result = await Books.findOneAndDelete({ _id: payload });
-  return result;
-};
-
-// const wishlistBook = async (payload:)
+// ! Should Be At User
 
 export const BooksService = {
   createNewBook,

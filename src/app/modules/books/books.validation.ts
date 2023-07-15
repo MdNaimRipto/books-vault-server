@@ -91,7 +91,16 @@ const updateBookZodSchema = z.object({
   }),
 });
 
+const deleteBookZodSchema = z.object({
+  body: z.object({
+    sellerID: z.string({
+      required_error: "Seller ID is Required",
+    }),
+  }),
+});
+
 export const BooksValidation = {
   createBookZodSchema,
   updateBookZodSchema,
+  deleteBookZodSchema
 };
