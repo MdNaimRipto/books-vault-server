@@ -28,6 +28,7 @@ const getBooksByID = async (payload: string): Promise<IBooks | null> => {
   return result;
 };
 
+// Get Books By Seller Function:
 const getBooksBySeller = async (payload: string): Promise<IBooks[]> => {
   const result = await Books.find({ sellerID: payload });
   if (!result.length) {
@@ -36,6 +37,7 @@ const getBooksBySeller = async (payload: string): Promise<IBooks[]> => {
   return result;
 };
 
+// Update Book Function:
 const updateBook = async (
   id: string,
   seller: string,

@@ -17,4 +17,10 @@ router.get("/getBooksByID/:id", BooksController.getBooksByID);
 
 router.get("/getBooksBySeller/:sellerID", BooksController.getBooksBySeller);
 
+router.patch(
+  "/updateBook/:id",
+  zodValidationRequest(BooksValidation.updateBookZodSchema),
+  BooksController.updateBook
+);
+
 export const BooksRouter = router;

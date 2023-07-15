@@ -50,6 +50,48 @@ const createBookZodSchema = z.object({
   }),
 });
 
+const updateBookZodSchema = z.object({
+  body: z.object({
+    sellerID: z.string({
+      required_error: "Seller ID is Required",
+    }),
+    updateData: z.object({
+      title: z.string().optional(),
+      author: z.string().optional(),
+      genre: z.string().optional(),
+      publicationDate: z.string().optional(),
+      description: z.string().optional(),
+      price: z.number().positive("Price must be a positive number").optional(),
+      inStock: z.boolean().optional(),
+      rating: z
+        .number()
+        .int()
+        .min(0, "Rating must be a non-negative integer")
+        .optional(),
+      allRating: z.array(z.number().optional()).optional(),
+      quantity: z
+        .number()
+        .int()
+        .positive("Quantity must be a positive integer")
+        .optional(),
+      reviews: z
+        .array(
+          z
+            .object({
+              id: z.string().optional(),
+              reviewerName: z.string().optional(),
+              review: z.string().optional(),
+            })
+            .optional()
+        )
+        .optional(),
+      img: z.string().optional(),
+      sellerID: z.string().optional(),
+    }),
+  }),
+});
+
 export const BooksValidation = {
   createBookZodSchema,
+  updateBookZodSchema,
 };
