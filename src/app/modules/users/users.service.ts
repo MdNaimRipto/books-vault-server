@@ -15,7 +15,6 @@ const userLogin = async (payload: IUserLogin): Promise<IUser | null> => {
     { email: email },
     {
       _id: 1,
-      email: 1,
       password: 1,
     }
   ).lean();
@@ -30,6 +29,10 @@ const userLogin = async (payload: IUserLogin): Promise<IUser | null> => {
 
   if (matchedUser && checkPassword) {
     const result = await Users.findById(matchedUser._id);
+    if (!result) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, "Invalid Email or Password!");
+    }
+
     return result;
   }
   return null;
