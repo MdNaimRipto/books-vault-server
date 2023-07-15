@@ -15,7 +15,7 @@ const booksSchema = new Schema<IBooks, BooksModel>({
   reviews: {
     type: [
       {
-        id: { type: String, required: true },
+        id: { type: Number, required: true },
         reviewerName: { type: String, required: true },
         review: { type: String, required: true },
       },

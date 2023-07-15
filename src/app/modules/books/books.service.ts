@@ -98,11 +98,10 @@ const deleteBook = async (
   return result;
 };
 
-// ! Should Be At User
+//
 const addReview = async (
   id: string,
   useID: string,
-  payload: Partial<IBooks>,
   review: IReview
 ): Promise<IBooks | null> => {
   const checkUser = await Users.findById({ _id: useID });
@@ -124,12 +123,12 @@ const addReview = async (
     );
   }
 
-  const { reviews } = payload;
-  if (reviews && reviews.length) {
+  const { reviews } = isExists;
+  if (reviews) {
     reviews.push(review);
   }
 
-  const result = await Books.findOneAndUpdate({ _id: id }, payload, {
+  const result = await Books.findOneAndUpdate({ _id: id }, isExists, {
     new: true,
   });
 
@@ -162,7 +161,6 @@ const updateRating = async (
   });
   return result;
 };
-// ! Should Be At User
 
 export const BooksService = {
   createNewBook,

@@ -29,4 +29,10 @@ router.delete(
   BooksController.deleteBook
 );
 
+router.patch(
+  "/addReview/:id",
+  zodValidationRequest(BooksValidation.reviewBookZodSchema),
+  BooksController.addReview
+);
+
 export const BooksRouter = router;

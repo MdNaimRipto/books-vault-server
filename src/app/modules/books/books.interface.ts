@@ -13,7 +13,6 @@ export type IBooks = {
   quantity: number;
   reviews: [
     {
-      id: string;
       reviewerName: string;
       review: string;
     }
@@ -23,7 +22,6 @@ export type IBooks = {
 };
 
 export type IReview = {
-  id: string;
   reviewerName: string;
   review: string;
 };

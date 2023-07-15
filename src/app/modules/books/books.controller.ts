@@ -72,6 +72,18 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const addReview = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { userID, review } = req.body;
+  const result = await BooksService.addReview(id, userID, review);
+  sendResponse<IBooks | null>(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Review Added Successfully",
+    data: result,
+  });
+});
+
 export const BooksController = {
   createNewBook,
   getAllBooks,
@@ -79,4 +91,5 @@ export const BooksController = {
   getBooksBySeller,
   updateBook,
   deleteBook,
+  addReview,
 };

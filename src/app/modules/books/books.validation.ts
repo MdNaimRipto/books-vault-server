@@ -99,8 +99,25 @@ const deleteBookZodSchema = z.object({
   }),
 });
 
+const reviewBookZodSchema = z.object({
+  body: z.object({
+    userID: z.string({
+      required_error: "Seller ID is Required",
+    }),
+    review: z.object({
+      reviewerName: z.string({
+        required_error: "Reviewer Name is Required",
+      }),
+      review: z.string({
+        required_error: "Review is Required",
+      }),
+    }),
+  }),
+});
+
 export const BooksValidation = {
   createBookZodSchema,
   updateBookZodSchema,
-  deleteBookZodSchema
+  deleteBookZodSchema,
+  reviewBookZodSchema,
 };
