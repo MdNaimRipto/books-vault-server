@@ -15,4 +15,6 @@ router.get("/getAllBooks", BooksController.getAllBooks);
 
 router.get("/getBooksByID/:id", BooksController.getBooksByID);
 
+router.get("/getBooksBySeller/:sellerID", BooksController.getBooksBySeller);
+
 export const BooksRouter = router;
