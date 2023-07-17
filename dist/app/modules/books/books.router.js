@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.BooksRouter = void 0;
+const express_1 = __importDefault(require("express"));
+const zodValidationRequest_1 = __importDefault(require("../../../middleware/zodValidationRequest"));
+const books_validation_1 = require("./books.validation");
+const books_controller_1 = require("./books.controller");
+const router = express_1.default.Router();
+router.post("/createNewBook", (0, zodValidationRequest_1.default)(books_validation_1.BooksValidation.createBookZodSchema), books_controller_1.BooksController.createNewBook);
+router.get("/getAllBooks", books_controller_1.BooksController.getAllBooks);
+router.get("/getTopBooks", books_controller_1.BooksController.getTopBooks);
+router.get("/getBooksByID/:id", books_controller_1.BooksController.getBooksByID);
+router.get("/getBooksBySeller/:sellerID", books_controller_1.BooksController.getBooksBySeller);
+router.patch("/updateBook/:id", (0, zodValidationRequest_1.default)(books_validation_1.BooksValidation.updateBookZodSchema), books_controller_1.BooksController.updateBook);
+router.delete("/deleteBook/:id", (0, zodValidationRequest_1.default)(books_validation_1.BooksValidation.deleteBookZodSchema), books_controller_1.BooksController.deleteBook);
+router.patch("/addReview/:id", (0, zodValidationRequest_1.default)(books_validation_1.BooksValidation.reviewBookZodSchema), books_controller_1.BooksController.addReview);
+router.patch("/updateRating/:id", (0, zodValidationRequest_1.default)(books_validation_1.BooksValidation.updateRatingBookZodSchema), books_controller_1.BooksController.updateRating);
+exports.BooksRouter = router;
