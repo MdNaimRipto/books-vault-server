@@ -1,18 +1,58 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from "http-status";
 import ApiError from "../../../errors/ApiError";
-import { IBooks, IReview } from "./books.interface";
+import { IBooks, IBooksFilters, IReview } from "./books.interface";
 import { Books } from "./books.schema";
 import { Users } from "../users/users.schema";
+import { booksSearchableFields } from "./books.constant";
 
 // Create Book Function:
 const createNewBook = async (bookData: IBooks): Promise<IBooks> => {
   const newBook = await Books.create(bookData);
+  console.log(newBook);
   return newBook;
 };
 
 // Get All Books Function:
-const getAllBooks = async (): Promise<IBooks[]> => {
-  const result = await Books.find();
+const getAllBooks = async (filters: IBooksFilters): Promise<IBooks[]> => {
+  //
+  const { searchTerm, ...filterData } = filters;
+  // Initialize andConditions as an empty array with a type annotation
+  const andConditions: {
+    $or?: { [x: string]: { $regex: string; $options: string } }[];
+    $and?: { [x: string]: any }[];
+  }[] = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      $or: booksSearchableFields.map(field => ({
+        [field]: {
+          $regex: searchTerm,
+          $options: "i",
+        },
+      })),
+    });
+  }
+
+  if (Object.keys(filterData).length) {
+    andConditions.push({
+      $and: Object.entries(filterData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    });
+  }
+  const checkAndCondition =
+    andConditions?.length > 0 ? { $and: andConditions } : {};
+
+  const result = (await Books.find(checkAndCondition)).reverse();
+  if (!result.length) {
+    throw new ApiError(httpStatus.NOT_FOUND, "No Books Found");
+  }
+  return result;
+};
+
+const getTopBooks = async (): Promise<IBooks[]> => {
+  const result = await Books.find().sort({ totalSale: -1 }).limit(10);
   if (!result.length) {
     throw new ApiError(httpStatus.NOT_FOUND, "No Books Found");
   }
@@ -176,6 +216,7 @@ const updateRating = async (
 export const BooksService = {
   createNewBook,
   getAllBooks,
+  getTopBooks,
   getBooksByID,
   getBooksBySeller,
   updateBook,

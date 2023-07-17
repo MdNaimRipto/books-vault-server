@@ -4,6 +4,8 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { BooksService } from "./books.service";
 import { IBooks } from "./books.interface";
+import pick from "../../../shared/shared";
+import { filterableFields } from "./books.constant";
 
 const createNewBook = catchAsync(async (req: Request, res: Response) => {
   const { ...booksData } = req.body;
@@ -17,7 +19,18 @@ const createNewBook = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBooks = catchAsync(async (req: Request, res: Response) => {
-  const result = await BooksService.getAllBooks();
+  const filters = pick(req.query, filterableFields);
+  const result = await BooksService.getAllBooks(filters);
+  sendResponse<IBooks[]>(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Books Retrieved Successfully",
+    data: result,
+  });
+});
+
+const getTopBooks = catchAsync(async (req: Request, res: Response) => {
+  const result = await BooksService.getTopBooks();
   sendResponse<IBooks[]>(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -51,6 +64,7 @@ const getBooksBySeller = catchAsync(async (req: Request, res: Response) => {
 const updateBook = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const { sellerID, updateData } = req.body;
+  console.log(sellerID, updateData);
   const result = await BooksService.updateBook(id, sellerID, updateData);
   sendResponse<IBooks | null>(res, {
     success: true,
@@ -99,6 +113,7 @@ const updateRating = catchAsync(async (req: Request, res: Response) => {
 export const BooksController = {
   createNewBook,
   getAllBooks,
+  getTopBooks,
   getBooksByID,
   getBooksBySeller,
   updateBook,

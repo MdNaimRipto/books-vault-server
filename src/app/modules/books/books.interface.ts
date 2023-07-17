@@ -5,6 +5,7 @@ export type IBooks = {
   author: string;
   genre: string;
   publicationDate: string;
+  publicationYear: string;
   description: string;
   price: number;
   totalSale: number;
@@ -25,6 +26,12 @@ export type IBooks = {
 export type IReview = {
   reviewerName: string;
   review: string;
+};
+
+export type IBooksFilters = {
+  searchTerm?: string;
+  genre?: string;
+  publicationYear?: string;
 };
 
 export type BooksModel = Model<IBooks, object>;

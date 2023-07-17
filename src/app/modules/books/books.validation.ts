@@ -14,6 +14,9 @@ const createBookZodSchema = z.object({
     publicationDate: z.string({
       required_error: "Publication Date is required",
     }),
+    publicationYear: z.string({
+      required_error: "Publication Year is required",
+    }),
     description: z.string({
       required_error: "Description is required",
     }),
@@ -61,6 +64,7 @@ const updateBookZodSchema = z.object({
       author: z.string().optional(),
       genre: z.string().optional(),
       publicationDate: z.string().optional(),
+      publicationYear: z.string().optional(),
       description: z.string().optional(),
       price: z.number().positive("Price must be a positive number").optional(),
       totalSale: z.number().int().min(0, "Total Sale is Required").optional(),

@@ -13,6 +13,8 @@ router.post(
 
 router.get("/getAllBooks", BooksController.getAllBooks);
 
+router.get("/getTopBooks", BooksController.getTopBooks);
+
 router.get("/getBooksByID/:id", BooksController.getBooksByID);
 
 router.get("/getBooksBySeller/:sellerID", BooksController.getBooksBySeller);

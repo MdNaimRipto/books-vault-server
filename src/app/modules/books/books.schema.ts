@@ -7,12 +7,13 @@ const booksSchema = new Schema<IBooks, BooksModel>(
     author: { type: String, required: true },
     genre: { type: String, required: true },
     publicationDate: { type: String, required: true },
+    publicationYear: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
     totalSale: { type: Number, required: true, default: 0 },
     inStock: { type: Boolean, required: true, default: true },
     rating: { type: Number, required: true, default: 0 },
-    allRating: [{ type: Number, required: true, default: 0 }],
+    allRating: [{ type: Number, required: true, default: 0, select: 0 }],
     quantity: { type: Number, required: true },
     reviews: {
       type: [
