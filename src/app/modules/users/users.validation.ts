@@ -11,7 +11,7 @@ const createUserZodSchema = z.object({
       }),
     }),
     email: z.string({
-      required_error: "Last Name is Required",
+      required_error: "Email is Required",
     }),
     password: z.string({
       required_error: "Password is Required",

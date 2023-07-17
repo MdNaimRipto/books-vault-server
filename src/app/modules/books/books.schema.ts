@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { BooksModel, IBooks } from "./books.interface";
 
-const booksSchema = new Schema<IBooks, BooksModel>(
+export const booksSchema = new Schema<IBooks, BooksModel>(
   {
     title: { type: String, required: true },
     author: { type: String, required: true },
